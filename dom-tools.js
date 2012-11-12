@@ -18,6 +18,7 @@ define([
 ){
 	"use strict";
 	
+	
 	var construct = {
 		"hiddenNode": false,
 		
