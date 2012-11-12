@@ -1,0 +1,18 @@
+{
+	"magazine": {
+		"rssitem": "magazine/article"
+	},
+	"homepage": {
+		"rssitem": "rssitem",
+		"tweet": "tweet",
+		"tooltip": "tooltip"
+	},
+	"sidebar": {
+		"rssitem": "rssitem",
+		"tweet": "sidebar/tweet",
+		"twitterUser": "sidebar/twitterUser",
+		"twitterLink": "sidebar/twitterLink",
+		"facebookUser": "sidebar/facebookUser",
+		"fbstatus": "sidebar/fbstatus"
+	}
+}
