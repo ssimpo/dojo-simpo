@@ -109,6 +109,7 @@ define([
 		},
 		
 		_setValueAttr: function(value){
+			//
 			array.every(this.panels, function(panel, n) {
 				if(Object.prototype.toString.call(value) === '[object Object]' ){
 					if(value.prototype == Colour){
