@@ -5,108 +5,182 @@
 define([
 	"dojo/_base/declare",
 	"dijit/_WidgetBase",
-	"simpo/dijit/colourPanel",
+	"dijit/_TemplatedMixin",
+	"dijit/_WidgetsInTemplateMixin",
+	"dojo/text!./views/colourPicker.html",
+	"./colourPanel",
+	"../palette",
 	"dojo/_base/array",
 	"dojo/dom-construct",
-	"dojo/_base/connect",
+	"dojo/on",
 	"dojo/_base/lang",
 	"dojo/query",
 	"dojo/NodeList-dom",
-	"dojo/dom-attr"
+	"dojo/dom-attr",
+	"../colour"
 ], function(
-	declare, _widget, panel, array, domConstruct, connect, lang, $, domNodeList,
-	domAttr
+	declare, _widget, _templated, _widgetT, template, panel, palette,
+	array, domConstruct, on, lang, $, domNodeList, domAttr, Colour
 ) {
+	"use strict";
     
-    var construct = declare("simpo.dijit.colourPicker",[_widget],{
-		templateString:'<div class="dojoSimpoDijitColourPicker" data-dojo-attach-point="container"><input type="hidden" value="" name="" data-dojo-attach-point="input" /></div>',
+    var construct = declare([_widget, _templated, _widgetT],  {
+		templateString: template,
 		
-		colours:[],
-		selected:0,
-		panels:[],
-		container:{},
-		input:{},
-		name:'',
-		id:'',
+		"colours": [],
+		"src": null,
+		"selected": 0,
+		"panels": [],
+		"containerNode": {},
+		"input": {},
+		"name": "",
+		"id": "",
+		"value": null,
+		"valueIsName": false,
 		
-		buildRendering: function() {
-			this.inherited(arguments);
-			this._construct_template();
-			
-			array.forEach(this.colours,function(colour) {
-				var panelObj;
-				if (typeof colour == 'string') {
-					panelObj = new panel({'colour':colour});
-				} else {
-					panelObj = new panel(colour);
+		"_defaultSelected": 0,
+		
+		postCreate: function(){
+			this._init();
+		},
+		
+		_init: function(){
+			this._getPalette();
+		},
+		
+		_getPalette: function(){
+			if(this.src !== null){
+				new palette({
+					"src":this.src,
+					"callback": lang.hitch(this, function(p){
+						this.colours = new Array();
+						array.forEach(p.colours, function(colourProfile, n){
+							var background = lang.clone(colourProfile.background);
+							background.name = colourProfile.name;
+							this.colours.push(background);
+						}, this);
+						this._addPannels();
+						if(this.value === null){
+							this._defaultSelected = this.selected;
+							this.set("selected", this.selected);
+						}else{
+							this.set("value", this.get("value"));
+							this._defaultSelected = this.selected;
+						}
+					})
+				});
+			}else{
+				this._addPannels();
+				if(this.value === null){
+					this._defaultSelected = this.selected;
+					this.set("selected", this.selected);
+				}else{
+					this.set("value", this.get("value"));
+					this._defaultSelected = this.selected;
+				}
+			}
+		},
+		
+		_addPannels: function(){
+			array.forEach(this.colours,function(colour){
+				var panelObj = this._createPanel(colour);
+				on(panelObj.domNode, "select", lang.hitch(this, this._selector));
+				this.panels.push(panelObj);
+				domConstruct.place(panelObj.domNode,this.containerNode);
+			},this);
+		},
+		
+		_createPanel: function(colour){
+			var panelObj = new panel({
+				"colour": colour,
+				"valueIsName": this.valueIsName
+			});
+			return panelObj;
+		},
+		
+		_setSelectedAttr: function(n){
+			if(this.selected != n){
+				this.panels[this.selected].unselect();
+			}
+			this.selected = n;
+			var pColour = this.panels[this.selected].get("colour");
+			this.value = ((this.valueIsName) ? pColour.name : pColour);
+			this.panels[this.selected].select();	
+		},
+		
+		_setValueAttr: function(value){
+			array.every(this.panels, function(panel, n) {
+				if(Object.prototype.toString.call(value) === '[object Object]' ){
+					if(value.prototype == Colour){
+						if(this._testColourMatch(panel.colour, value)){
+							this.set("selected", n);
+							return false;
+						}
+					}
+				}else if(typeof value == "string"){
+					if(panel.colour.name.toUpperCase() == value.toUpperCase()){
+						this.set("selected", n);
+						return false;
+					}
 				}
 				
-				connect.connect(panelObj,'select',this,this.selector);
-				this.panels.push(panelObj);
-				domConstruct.place(panelObj.domNode,this.container);
-			},this);
-			
-			this.panels[this.selected].select();
+				return true;
+			}, this);
 		},
 		
-		_construct_template: function() {
-			this._set_colours();
-			
-			this.name = domAttr.get(this.domNode,'name');
-			this.id = domAttr.get(this.domNode,'id');
-			
-			this.container = domConstruct.create('div',{
-				'class':'dojoSimpoDijitColourPicker'
-			});
-			domConstruct.place(this.container,this.domNode,'replace');
-		
-			var inputContstr = {'type':'hidden','name':this.name,'value':this.selected};
-			if (this.id != '') {
-				inputContstr.id = this.id;
+		_testColourMatch: function(colour1, colour2){
+			if(this._isRGB(colour1) && this._isRGB(colour2)){
+				return ((colour1.r == colour2.r) && (colour1.g == colour2.g) && (colour1.b == colour2.b));
 			}
 			
-			this.input = domConstruct.create('input',inputContstr,this.container);
+			return false;
 		},
 		
-		_set_colours: function() {
-			var options = $('option',this.domNode);
-			if (options.length > 0) {
-				this.colours = new Array();
-				array.forEach(options,function(option,n) {
-					var colour = domAttr.get(option,'value');
-					var name = option.innerHTML;
-					var selected = domAttr.get(option,'selected');
-					if (selected) { this.selected = n; }
-					this.colours.push({'name':name,'colour':colour});
-				},this);
-			}
+		_isRGB: function(obj){
+			return this._objectHasProperties(obj,["r","g","b"]);
 		},
 		
-		selector: function(event) {
-			if (event != undefined) {
+		_objectHasProperties: function(obj, props){
+			var hasAll = true;
+			
+			array.forEach(props, function(prop){
+				if(!obj.hasOwnProperty(prop)){
+					hasAll = false;
+				}
+			})
+			
+			return hasAll;
+		},
+		
+		_selector: function(event){
+			if (event !== undefined) {
 				var node = this._getEventTarget(event);
-				var parent = node.parentNode;
-				var panelNodes = $('.dojoSimpoDijitColourPanel',parent);
-			
-				array.forEach(panelNodes,function(panelNode,n) {
-					if (panelNode == node) {
-						this.panels[this.selected].unselect();
-						this.selected = n;
-						this.input.value = this.colours[n].name;
-					}
-				},this);
+				
+				if(node != this.panels[this.selected].domNode){
+					array.forEach(this.panels, function(panel, n) {
+						if(panel.domNode == node){
+							this.selected = n;
+							this.set("value",panel.get("value"));
+						}else{
+							panel.unselect();
+						}
+					},this);
+				}
 			}
-			
 		},
 		
-		_getEventTarget: function(event) {
+		_getEventTarget: function(event){
             if (event.currentTarget) { return event.currentTarget; }
             if (event.target) { return event.target; }
             if (event.orginalTarget) { return event.orginalTarget; }
             if (event.srcElement) { return event.srcElement; }
                 
             return event;
-        }
+        },
+		
+		reset: function(){
+			this.panels[this._defaultSelected].select();
+		}
 	});
     
     return construct;

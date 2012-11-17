@@ -1,0 +1,20 @@
+{
+    "name": "Simpo widgets",
+    "description": "Simpo widgets",
+    "version": "0.5",
+    "keywords": ["JavaScript", "Dojo", "Toolkit", "DojoX"],
+    "maintainers": [{
+        "name": "Stephen Simpson"
+    }],
+    "contributors": [{
+        "name": "Stephen Simpson"
+    }],
+    "dependencies": {
+        "dojo": "~1.8.0",
+        "dijit": "~1.8.0",
+        "dojox": "~1.8.0"
+    },
+    "main": "src",
+    "homepage": "http://simpo.org/",
+    "dojoBuild": "simpo.profile.js"
+}
