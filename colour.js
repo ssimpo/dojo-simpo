@@ -176,10 +176,9 @@ define([
             h = hue < 0 ? 360 + hue : hue;
             this.setRGBfromHSL(h/360,this.s,this.l);
         },
-        brightness: function() {
-            return (this.r*0.299) + (this.g*0.587) + (this.b*0.114);
+        brightness: function(value){
+           return (this.r*0.299) + (this.g*0.587) + (this.b*0.114);
         },
-        
         _clamp: function(val) {
             return Math.min(1, Math.max(0, val));
         },

@@ -47,8 +47,13 @@ define([
 			array.forEach(this.profiles, function(profile) {
 				var colourProfile = this._getColourProfile(profile);
 				colourProfile.name = profile.name;
-				colourProfile.background = new Colour(colourProfile.background);
-				colourProfile.foreground = new Colour(colourProfile.foreground);
+				
+				for(var selector in colourProfile){
+					if(selector != "name"){
+						colourProfile[selector] = new Colour(colourProfile[selector]);
+					}
+				}
+				
 				parsedProfiles.push(colourProfile);
 			}, this);
 			

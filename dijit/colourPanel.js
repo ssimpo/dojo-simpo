@@ -71,7 +71,7 @@ define([
 			}
 			
 			this.borderColour = new colour(this.colour.toHex());
-			this.borderColour.spin(180);
+			this.borderColour.spin(120);
 			this._styleWidget();
 		},
 		
