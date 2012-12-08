@@ -13,8 +13,7 @@ require([
 	).then(
 		function(data){
 			console.log(data);
-			var get = eval;
-			var gb = get("this");
+			var gb = Function('return this')() || (42, eval)('this');
 			
 			for(var prop in gb){
 				console.log(prop);
