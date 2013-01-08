@@ -1,6 +1,6 @@
 define([
     "dojo/_base/declare",
-	"dijit/_Widget",
+	"dijit/_WidgetBase",
 	"dojo/_base/fx",
 	"dojo/fx",
 	"dojo/_base/lang",
@@ -20,194 +20,197 @@ define([
 ){
     
     "use strict";
-	var construct = declare("simpo.widget.scroller",[_widget],{
-		'-chains-': {'buildRendering':'after'},
-        
-		'src':'',
-		'period':0,
-		'duration':0,
-		'slidewidth':0,
-		'slideheight':0,
-		'showslides':0,
-		'width':0,
-		'height':0,
-		'gap':5,
-		'direction':'random',
+	var construct = declare("simpo.widget.scroller", [_widget], {
+        "src": "",
+		"period": 0,
+		"duration": 0,
+		"slideWidth": 0,
+		"slideHeight": 0,
+		"showSlides": 0,
+		"width": 0,
+		"height": 0,
+		"gap": 5,
+		"direction": "random",
 		
-		'_slides':[],
-		'_current_scroll':{},
-		'_current_side_no':0,
-		'_slide_html':[],
+		"_slides": [],
+		"_current_scroll": {},
+		"_current_side_no": 0,
+		"_slide_html": [],
 		
-		postMixInProperties: function() {
+		constructor: function(){
+			console.log(arguments);
+		},
+		
+		postCreate: function(){
 			this._initInts();
 			this._initDimensions();
 			this._initDirection();
-		},
-        
-        buildRendering: function() {
-            domClass.add(this.domNode,'dojoxrcbcscroller');
+			domClass.add(this.domNode,"dojoxrcbcscroller");
 			this._styleSchollerContainer();
 			this._loadFeedContents();
 		},
 		
-		_initInts: function() {
-			this.period = parseInt(this.period,10);
-			this.duration = parseInt(this.duration,10);
-			this.slideheight = parseInt(this.slideheight,10);
-			this.slidewidth = parseInt(this.slidewidth,10);
-			this.showslides = parseInt(this.showslides,10);
+		_initInts: function(){
+			this.period = parseInt(this.period, 10);
+			this.duration = parseInt(this.duration, 10);
+			this.slideHeight = parseInt(this.slideHeight, 10);
+			this.slideWidth = parseInt(this.slideWidth, 10);
+			this.showSlides = parseInt(this.showSlides, 10);
 			this.gap = parseInt(this.gap,10);
 		},
 		
-		_initDimensions: function() {
-			this.height = this.slideheight;
-			this.width = ((this.slidewidth*this.showslides)+(this.gap*this.showslides));
+		_initDimensions: function(){
+			this.height = this.slideHeight;
+			this.width = ((this.slideWidth*this.showSlides)+(this.gap*this.showSlides));
 		},
 		
-		_initDirection: function() {
+		_initDirection: function(){
 			this.direction = lang.trim(this.direction.toLowerCase());
-			this.direction = ((this.direction=='')?'right':this.direction);
-			this.direction = ((this.direction=='random')?this._pickRandomItem(['left','right']):this.direction);
-			this.direction = ((this.direction=='left')?'left':'right');
+			this.direction = ((this.direction=="")?"right":this.direction);
+			this.direction = ((this.direction=="random")?this._pickRandomItem(["left","right"]):this.direction);
+			this.direction = ((this.direction=="left")?"left":"right");
 		},
 		
-		_styleSchollerContainer: function() {
+		_styleSchollerContainer: function(){
+			console.log(this.height, this.width);
 			domStyle.set(this.domNode,{
-				'height':this.height+'px',
-				'width':this.width+'px',
-				'position':'relative',
-				'overflow':'hidden'
+				"height": this.height+"px",
+				"width": this.width+"px",
+				"position": "relative",
+				"overflow": "hidden"
 			});
 		},
 		
 		_loadFeedContents: function() {
 			xhr.get({
 				"url": this.src,
-				handleAs: "json",
-				preventCache: true,
-				load: lang.hitch(this,this._feedLoaded)
+				"handleAs": "json",
+				"preventCache": true,
+				"load": lang.hitch(this, this._feedLoaded)
 			});
 		},
 		
-		_feedLoaded: function(data) {
+		_feedLoaded: function(data){
 			this._createSlides(data);
 			this._setScrollTimer();
 		},
 		
-		_createSlides: function(data) {
-			array.forEach(data,function(item,index) {
+		_createSlides: function(data){
+			array.forEach(data,function(item, index) {
 				var slide = this._createSlideContainer(index);
-				slide.set('href',item);
+				slide.set("href", item);
+				console.log(index, item, slide);
 				this._slides[index] = slide;
 				this._current_side_no = index;
 			},this);
 		},
 		
-		_createSlideContainer: function(index) {
-			var slide = new contentPane({'class':'dojoxrcbcscrollerslide'});
-			slide.placeAt(this.domNode,'last');
-			this._styleSlideContainer(slide.domNode,index);
+		_createSlideContainer: function(index){
+			var slide = new contentPane({
+				"class": "simposcrollerslide"
+			});
+			slide.placeAt(this.domNode, "last");
+			this._styleSlideContainer(slide.domNode, index);
 			return slide;
 		},
 		
-		_styleSlideContainer: function(node,index) {
+		_styleSlideContainer: function(node,index){
 			domStyle.set(node,{
-				'position':'absolute',
-				'width':this.slidewidth+'px',
-				'height':this.slideheight+'px',
-				'left':((this.slidewidth*index)+((index+1)*this.gap))+'px',
-				'top':'0px',
-				'overflow':'hidden'
+				"position": "absolute",
+				"width": this.slideWidth+"px",
+				"height": this.slideHeight+"px",
+				"left": ((this.slideWidth*index)+((index+1)*this.gap))+"px",
+				"top": "0px",
+				"overflow": "hidden"
 			});
 			
 			return node;
 		},
 		
-		_setScrollTimer: function() {
+		_setScrollTimer: function(){
 			this._current_scroll = new timer.Timer(this.period);
 			this._current_scroll.onTick = lang.hitch(this,this._slide);
 			this._current_scroll.start();
 		},
 		
-		_slide: function () {
-			if (this.direction=='right') {
+		_slide: function(){
+			if(this.direction=="right"){
 				this._moveNextSlideToBeginning();
 			}
 			this._advanceSlideCounter();
 
 			var animation = new Array();
-			array.forEach(this._slides,function(slide) {
+			array.forEach(this._slides,function(slide){
 				animation.push(this._createSlideAnimation(slide));
 			},this);
 			
 			var ani = coreFx.combine(animation);
-			if (this.direction=='left') {
+			if (this.direction=="left"){
 				ani.onEnd = lang.hitch(this,this._moveLastSlideToEnd);
 			}
 			ani.play();
 		},
 		
-		_moveNextSlideToBeginning: function() {
+		_moveNextSlideToBeginning: function(){
 			domStyle.set(
 				this._slides[this._current_side_no].domNode,
-				{left:'-'+this.slidewidth+'px'}
+				{left:"-"+this.slidewidth+"px"}
 			);
 		},
 		
-		_moveLastSlideToEnd: function() {
+		_moveLastSlideToEnd: function(){
 			domStyle.set(
 				this._slides[this._current_side_no].domNode,
-				{left:(((this.slidewidth+this.gap)*(this._slides.length-1))+this.gap)+'px'}
+				{left:(((this.slideWidth+this.gap)*(this._slides.length-1))+this.gap)+"px"}
 			);
 		},
 		
-		_advanceSlideCounter: function() {
-			if (this.direction=='right') {
+		_advanceSlideCounter: function(){
+			if (this.direction=="right") {
 				this._current_side_no--;
-			} else if (this.direction=='left') {
+			} else if (this.direction=="left") {
 				this._current_side_no++;
 			}
 			
-			if (this._current_side_no < 0) {
+			if (this._current_side_no < 0){
 				this._current_side_no = (this._slides.length-1);
 			} else if (this._current_side_no >= this._slides.length) {
 				this._current_side_no = 0;
 			}
 		},
 		
-		_createSlideAnimation: function(slide) {
+		_createSlideAnimation: function(slide){
 			var coords = this._coords(slide.domNode);
 			var start = coords.l;
 			var end = this._calcAnimationLeftEnd(coords);
 			
 			var animation = fx.animateProperty({
-				'node': slide.domNode,
-				'duration': this.duration,
-				'properties':{'left':{'start':start,'end':end}
+				"node": slide.domNode,
+				"duration": this.duration,
+				"properties":{"left":{"start":start,"end":end}
 				}
 			});
 			
 			return animation;
 		},
 		
-		_calcAnimationLeftEnd: function(coords) {
+		_calcAnimationLeftEnd: function(coords){
 			var end = coords.l;
 			
-			if (this.direction=='right') {
+			if (this.direction=="right") {
 				end = coords.w+coords.l;
-			} else if (this.direction=='left') {
+			} else if (this.direction=="left") {
 				end = coords.l-coords.w;
 			}
 			
 			return end;
 		},
 		
-		_coords: function(node) {
+		_coords: function(node){
 			return domGeo.getMarginBox(node);
 		},
 		
-		_getRndomNo: function(from,to) {
+		_getRndomNo: function(from, to){
             // summary:
 			//      Get a random number (integer) between two numbers.
 			// from: integer
@@ -219,7 +222,7 @@ define([
             return Math.floor(Math.random() * (to - from + 1) + from);
         },
 		
-		_pickRandomItem: function(ary) {
+		_pickRandomItem: function(ary){
 			var n = this._getRndomNo(0,(ary.length-1));
 			
 			return ary[n];
