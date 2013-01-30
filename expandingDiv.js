@@ -1,6 +1,6 @@
 define([
     "dojo/_base/declare",
-    "simpo/div",
+    "simpop/div",
     "dojo/_base/connect",
     "dojo/_base/fx",
     "dojo/dom-style"

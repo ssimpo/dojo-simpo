@@ -1,8 +1,8 @@
 define([
     "dojo/_base/declare",
-	"simpo/expandingDiv",
+	"simpop/expandingDiv",
 	"dojo/_base/xhr",
-	"simpo/metro/metroTab",
+	"./metroTab",
 	"dojo/dom-geometry",
 	"dojo/dom-class",
 	"dojo/dom-style"
@@ -10,7 +10,7 @@ define([
     declare, eDiv, xhr, metroTab, domGeom, domClass, domStyle
 ){
     var construct = declare("simpo.metro.metroMenu",[eDiv],{
-		source:'http://localhost/wordpress/wp-content/themes/thechristiancentre/scripts/simpo/metro/source.json',
+		source:'http://localhost/wordpress/wp-content/themes/thechristiancentre/scripts/simpop/metro/source.json',
 		showRows:2,
 		
 		_tabs:[],
@@ -19,6 +19,7 @@ define([
 			this.inherited(arguments);
 			this._marginBox = domGeom.getMarginBox(this.domNode);
 			this._loadConfig();
+			console.log(1);
 		},
 		
 		_loadConfig: function() {
