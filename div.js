@@ -3,13 +3,20 @@ define([
     "lib/pnglib",
     "simpo/colour",
     "dijit/_WidgetBase",
+	"dojo/Evented",
 	"dojo/dom-style"
 ], function(
-    declare, pnglib, colour, _Widget, domStyle
+    declare, pnglib, colour, _Widget, Evented, domStyle
 ){
-    var construct = declare("simpo.div",[_Widget],{
+	"use strict";
+	
+    var construct = declare([_Widget, Evented], {
         postCreate: function() {
-            var colourObj = new colour(domStyle.get(this.domNode,'backgroundColor'));
+            this._init();
+        },
+		
+		_init: function(){
+			var colourObj = new colour(domStyle.get(this.domNode,'backgroundColor'));
             var alpha = domStyle.get(this.domNode,'opacity');
             
             if (alpha != 1) {
@@ -23,7 +30,7 @@ define([
                 domStyle.set(this.domNode,"backgroundImage",dataUrl);
                 domStyle.set(this.domNode,"backgroundRepeat","repeat");
             }
-        }
+		}
     });
     
     return construct;
