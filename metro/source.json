@@ -2,128 +2,127 @@
 	{
 		"label":"About Us",
 		"href":"/about-us",
-		"icon":"refresh",
-		"colour":"rgba(255,127,0,0.75)",
-		"widthMultiplier": 3
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
+		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Visiting Us",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Find Us",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Contact Us",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Our Team",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Denomination",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"History",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Vision",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Beliefs",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Connect Groups",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Students",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Children",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Ignites",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Prayer",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Newsletter",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Blog",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Sermons",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Links",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Events",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Christianity?",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	},
 	{
 		"label":"Social Media",
 		"href":"/about-us",
-		"icon":"refresh",
+		"icon":"wp-content/themes/thechristiancentre2/images/design/metro/refresh.png",
 		"colour":"rgba(255,127,0,0.75)"
 	}
 ]

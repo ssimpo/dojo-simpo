@@ -16,10 +16,11 @@ define([
 	"simpo/colour",
 	"simpo/typeTest",
 	"dojo/on",
-	"dojo/_base/lang"
+	"dojo/_base/lang",
+	"dojo/dom-attr"
 ], function(
 	declare, _widget, _templated, _wTemplate, i18n, strings, template,
-	domStyle, Colour, typeTest, on, lang
+	domStyle, Colour, typeTest, on, lang, domAttr
 ) {
 	"use strict";
 	
@@ -47,6 +48,21 @@ define([
 		_init: function(){
 			on(this.domNode, "mouseover", lang.hitch(this, this._highlight));
 			on(this.domNode, "mouseout", lang.hitch(this, this._unhighlight));
+		},
+		
+		_setIconAttr: function(value){
+			this.icon = value;
+			domAttr.set(this.iconNode, "src", this.icon);
+		},
+		
+		_setLabelAttr: function(value){
+			this.label = value;
+			domAttr.set(this.labelNode, "innerHTML", this.label);
+		},
+		
+		_setHrefAttr: function(value){
+			this.href = value;
+			domAttr.set(this.anchorNode, "href", this.href);
 		},
 		
 		_highlight: function(evt){
