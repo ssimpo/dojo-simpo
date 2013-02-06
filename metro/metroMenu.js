@@ -9,8 +9,8 @@ define([
 ], function(
     declare, eDiv, xhr, metroTab, domGeom, domClass, domStyle
 ){
-    var construct = declare("simpo.metro.metroMenu",[eDiv],{
-		source:'http://localhost/wordpress/wp-content/themes/thechristiancentre/scripts/simpop/metro/source.json',
+    var construct = declare([eDiv],{
+		source:'http://localhost/TCC/wp-content/themes/thechristiancentre2/scripts/simpop/metro/source.json',
 		showRows:2,
 		
 		_tabs:[],
