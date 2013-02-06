@@ -21,7 +21,12 @@ define([
 		templateString:'<div class="dojoSimpoWidgetSlideshow" data-dojo-attach-point="container"></div>',
 		height:0,
 		width:0,
-		images:['images/slideshow/1.jpg','images/slideshow/2.jpg','images/slideshow/3.jpg','images/slideshow/4.jpg'],
+		images:[
+			'wp-content/themes/thechristiancentre2/images/slideshow/1.jpg',
+			'wp-content/themes/thechristiancentre2/images/slideshow/2.jpg',
+			'wp-content/themes/thechristiancentre2/images/slideshow/3.jpg',
+			'wp-content/themes/thechristiancentre2/images/slideshow/4.jpg'
+		],
 		
 		_img:{},
 		_currentImage:0,
@@ -37,8 +42,8 @@ define([
 			array.forEach(this.images,function(src,n){
 				this._imageNodes[n] = domConstruct.create("img",{
 					'src':src,
-					'width':'960px',
-					'height':'650px',
+					'width':'350px',
+					'height':'350px',
 					'alt':'Ignite Images'
 				});
 			},this);
@@ -48,7 +53,7 @@ define([
 			this._timer.onTick = lang.hitch(this,this.next);
 			this._timer.start();
 			
-			domConstruct.create("img",{
+			/*domConstruct.create("img",{
 				'src':'images/fulllogo.png',
 				'width':'400px',
 				'alt':'Ignite Logo',
@@ -57,7 +62,7 @@ define([
 			
 			domConstruct.create("div",{
 				'style':{'position':'absolute','top':'100px','left':'500px','opacity':'0.9','color':'#7799ff','innerHTML':'Saturday 16 May 2012 - 7:30pm','fontSize':'3em'}
-			},this.container);
+			},this.container);*/
 		},
 		
 		next: function() {
