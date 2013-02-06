@@ -25,8 +25,8 @@ define([
 		//		The internationalisation text-strings for current browser language.
 		"i18n": strings,
 		"src": "",
-		"tabWidth": "75px",
-		"tabHeight": "75px",
+		"tabWidth": "85px",
+		"tabHeight": "85px",
 		
 		"maxHeight": 500,
         "minHeight": 200,
@@ -38,7 +38,6 @@ define([
         },
 		
 		_initMetroMenu: function(){
-			console.log("HELLO");
 			this._getMenuSource();
 		},
 		
