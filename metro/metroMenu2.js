@@ -13,10 +13,11 @@ define([
 	"dojo/_base/lang",
 	"dojo/_base/array",
 	"./metroTab2",
-	"dojo/dom-construct"
+	"dojo/dom-construct",
+	"simpo/typeTest"
 ], function(
 	declare, i18n, strings, expandingDiv, request, lang, array, metroTab,
-	domComstr
+	domComstr, typeTest
 ) {
 	"use strict";
 	
@@ -31,15 +32,7 @@ define([
 		"maxHeight": 500,
         "minHeight": 200,
 		
-		postCreate: function(){
-            this._init();
-            this._initExpandingDiv();
-			this._initMetroMenu();
-        },
-		
-		_initMetroMenu: function(){
-			this._getMenuSource();
-		},
+		"wordpressAction": null,
 		
 		_setTabWidthAttr: function(value){
 			this.tabWidth = this._getPxValue(value);
@@ -47,6 +40,20 @@ define([
 		
 		_setTabHeightAttr: function(value){
 			this.tabHeight = this._getPxValue(value);
+		},
+		
+		_setSrcAttr: function(value){
+			if(value !== "" && value !== undefined && value !== null){
+				this.src = value;
+				this._getMenuSource();
+			}
+		},
+		
+		_setWordpressActionAttr: function(value){
+			if(value !== "" && value !== undefined && value !== null){
+				this.wordpressAction = value;
+				this.set("src", ajaxurl);
+			}
 		},
 		
 		_getPxValue: function(txt){
@@ -58,11 +65,18 @@ define([
 		},
 		
 		_getMenuSource: function(){
-			console.log(this.src);
-			request(this.src, {
+			var construct = {
 				"handleAs": "json",
-				"preventCache": true
-			}).then(
+				"preventCache": true,
+				"method": "get"
+			};
+			
+			if(this.wordpressAction !== "" && this.wordpressAction !== undefined && this.wordpressAction !== null){
+				construct.method = "post";
+				construct.data = {"action": this.wordpressAction};
+			}
+			
+			request(this.src, construct).then(
 				lang.hitch(this, this._handleSource),
 				lang.hitch(this, this._handleSourceError)
 			);
