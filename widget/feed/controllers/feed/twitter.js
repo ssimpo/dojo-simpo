@@ -34,16 +34,21 @@ define([
 		_init: function(config) {
 			this.config = config;
 			
-			request(this.statusesUrl,{
-				"jsonp": "callback",
-				"query": this.config.config
+			requestJson(ajaxurl, {
+				"handleAs": "json",
+				"method": "post",
+				"preventCache": true,
+				"data": {
+					"action": "wpTweetingMarvalousTwitterProxy"
+				}
 			}).then(
-				lang.hitch(this,this._dataLoaded),
+				lang.hitch(this, this._dataLoaded),
 				this.config.onerror
 			);
 		},
 		
 		_dataLoaded: function(data) {
+			console.log("DATA", data);
 			var parsedData = new Array();
 			var userData = new Array();
 			
